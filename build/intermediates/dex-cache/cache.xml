@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\JorEquis\Documents\LibGDX\Atomic3\core\build\libs\core-1.0.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="cd5d1e2751b80a50b2d4b5314311d466e183d3b9">
+        <dex dex="C:\Users\JorEquis\Documents\LibGDX\Atomic3\android\build\intermediates\pre-dexed\debug\core-1.0_34841de5c510fc0a8de16b6122e21fe5d2f5f9f0.jar" />
+    </item>
+
+</items>

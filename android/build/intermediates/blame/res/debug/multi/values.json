@@ -1,0 +1,149 @@
+[
+    {
+        "outputFile": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic3\\android\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 50,
+                    "endOffset": 101
+                },
+                "from": {
+                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic3\\android\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 106,
+                    "endColumn": 44,
+                    "endOffset": 146
+                },
+                "from": {
+                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic3\\android\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 56,
+                        "endColumn": 44,
+                        "endOffset": 96
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 151,
+                    "endLine": 11,
+                    "endColumn": 12,
+                    "endOffset": 631
+                },
+                "from": {
+                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic3\\android\\res\\values\\styles.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 636,
+                    "endLine": 14,
+                    "endColumn": 12,
+                    "endOffset": 799
+                },
+                "from": {
+                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic3\\android\\res\\values\\styles.xml"
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic2\\android\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 50,
+                    "endOffset": 101
+                },
+                "from": {
+                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic2\\android\\res\\values\\colors.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 57,
+                        "endColumn": 50,
+                        "endOffset": 103
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 106,
+                    "endColumn": 43,
+                    "endOffset": 145
+                },
+                "from": {
+                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic2\\android\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 56,
+                        "endColumn": 43,
+                        "endOffset": 95
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 150,
+                    "endLine": 11,
+                    "endColumn": 12,
+                    "endOffset": 630
+                },
+                "from": {
+                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic2\\android\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 185,
+                        "endLine": 12,
+                        "endColumn": 12,
+                        "endOffset": 665
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 635,
+                    "endLine": 14,
+                    "endColumn": 12,
+                    "endOffset": 798
+                },
+                "from": {
+                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic2\\android\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 17,
+                        "endLine": 4,
+                        "endColumn": 12,
+                        "endOffset": 180
+                    }
+                }
+            }
+        ]
+    }
+]
