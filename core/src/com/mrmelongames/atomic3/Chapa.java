@@ -37,7 +37,6 @@ public class Chapa {
     int deltaX;
     int deltaY;
     Vector2 direction;
-    float mass;
 
     int ataque;
     int vidaInit;
@@ -55,8 +54,6 @@ public class Chapa {
     Chapa(String path, int sw, int sh, float ds)
     {
         canCollide = true;
-
-        mass = 1;
 
         Texture t = new Texture(Gdx.files.internal(path), true);
         t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -81,8 +78,7 @@ public class Chapa {
         FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         int pixelsFont = Gdx.graphics.getWidth() / 30;
-        int sizeFont = (int) ((pixelsFont * 101d) / 72d);
-        param.size = sizeFont;
+        param.size = (int) ((pixelsFont * 101d) / 72d);
         param.color = Color.WHITE;
         param.borderColor = Color.BLACK;
         param.borderWidth = 10 * designScale;
@@ -92,10 +88,12 @@ public class Chapa {
 
     }
 
-    void setParams(int _vida, int _ataque){
+    void setParams(int _vida, int _ataque, int _velocidad, int _attackRadius){
         vida = _vida;
         vidaInit = _vida;
         ataque = _ataque;
+        initVelocidad = _velocidad;
+        attackRadius = _attackRadius;
     }
 
     void draw(SpriteBatch spriteBatch) {
@@ -104,11 +102,9 @@ public class Chapa {
 
     }
 
-    void update(float deltaTime)
+    void update(@SuppressWarnings("unused") float deltaTime)
     {
-        deltaTime = deltaTime - initialDeltaTime;
-
-        velocidad *= 0.965f;
+        velocidad *= 0.9f;
         //velocidad = 1f;
         sprite.setPosition(
                 sprite.getX() + direction.x * velocidad,
@@ -145,20 +141,14 @@ public class Chapa {
         //if(!canCollide || !c.canCollide) return false;
         Vector2 posC = new Vector2(c.getX() + c.getWidth() / 2, c.getY() + c.getHeight() / 2);
         Vector2 myPos = new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
-        boolean areColliding = posC.dst(myPos) <= (getWidth() / 2f) + (c.getWidth() / 2f);
-        /*Chapa b = isBalon ? this : c.isBalon ? c : null;
-        if(b != null && b.canCollide && areColliding) b.canCollide = false;*/
-        return areColliding;
+        return posC.dst(myPos) <= (getWidth() / 2f) + (c.getWidth() / 2f);
     }
 
     boolean isColliding(Orbe o){
         //if(!canCollide || !c.canCollide) return false;
         Vector2 posC = new Vector2(o.x, o.y);
         Vector2 myPos = new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
-        boolean areColliding = posC.dst(myPos) <= (getWidth() / 2f) + (o.radio);
-        /*Chapa b = isBalon ? this : c.isBalon ? c : null;
-        if(b != null && b.canCollide && areColliding) b.canCollide = false;*/
-        return areColliding;
+        return posC.dst(myPos) <= (getWidth() / 2f) + (o.radio);
     }
 
     void reset(){
@@ -171,11 +161,6 @@ public class Chapa {
 
     Sprite getSprite() { return sprite; }
 
-    void setPosition(Vector2 vec)
-    {
-        setPosition(vec.x, vec.y);
-    }
-
     void setPosition(float x, float y)
     {
         sprite.setPosition(x * designScale - getWidth()/2, y * designScale - getHeight()/2);
@@ -184,8 +169,6 @@ public class Chapa {
         startX = sprite.getX();
         startY = sprite.getY();
     }
-
-    Vector2 getPosition() { return new Vector2(sprite.getX(), sprite.getY()); }
 
     float getWidth() {return sprite.getWidth();}
 
@@ -201,13 +184,6 @@ public class Chapa {
 
     void setVelocity(int vel) {
         initVelocidad = vel;
-    }
-
-    float getVelocity() { return initVelocidad; }
-
-    public float easeInCubic (float t, float b, float c) { // t: tiempo, b: inicio, c: inicio - final, d: duracion
-        t = t > 1 ? 1 : t;
-        return c * t * t * t + b;
     }
 
     public void dispose(){
