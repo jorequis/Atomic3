@@ -11,7 +11,14 @@
                     "endOffset": 101
                 },
                 "from": {
-                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic3\\android\\res\\values\\colors.xml"
+                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic3\\android\\res\\values\\colors.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 57,
+                        "endColumn": 50,
+                        "endOffset": 103
+                    }
                 }
             },
             {
@@ -27,9 +34,9 @@
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 56,
+                        "startOffset": 59,
                         "endColumn": 44,
-                        "endOffset": 96
+                        "endOffset": 99
                     }
                 }
             },
@@ -43,7 +50,15 @@
                     "endOffset": 631
                 },
                 "from": {
-                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic3\\android\\res\\values\\styles.xml"
+                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic3\\android\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 190,
+                        "endLine": 12,
+                        "endColumn": 12,
+                        "endOffset": 677
+                    }
                 }
             },
             {
@@ -56,7 +71,15 @@
                     "endOffset": 799
                 },
                 "from": {
-                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic3\\android\\res\\values\\styles.xml"
+                    "file": "C:\\Users\\JorEquis\\Documents\\LibGDX\\Atomic3\\android\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 19,
+                        "endLine": 4,
+                        "endColumn": 12,
+                        "endOffset": 184
+                    }
                 }
             }
         ]

@@ -42,8 +42,6 @@ public class Chapa {
     int ataque;
     int vidaInit;
     int vida;
-    int turnosInit;
-    int turnos;
     int attackRadius;
 
     int teamID;
@@ -94,17 +92,15 @@ public class Chapa {
 
     }
 
-    void setParams(int _vida, int _ataque, int _turnos){
+    void setParams(int _vida, int _ataque){
         vida = _vida;
         vidaInit = _vida;
-        turnos = _turnos;
-        turnosInit = _turnos;
         ataque = _ataque;
     }
 
     void draw(SpriteBatch spriteBatch) {
         sprite.draw(spriteBatch);
-        font.draw(spriteBatch, "HP: " + vida + "\nATK: " + ataque + "\nTRNS: " + turnos, getX(), getY() + getHeight(), getWidth(), Align.center, false);
+        font.draw(spriteBatch, "HP: " + vida + "\nATK: " + ataque, getX(), getY() + getHeight(), getWidth(), Align.center, false);
 
     }
 
@@ -169,7 +165,6 @@ public class Chapa {
         sprite.setPosition(startX, startY);
         velocidad = 0;
         vida = vidaInit;
-        turnos = turnosInit;
     }
 
     void setColor(Color c){ sprite.setColor(c); }

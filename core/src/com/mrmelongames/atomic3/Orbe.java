@@ -7,4 +7,6 @@ public class Orbe {
     int y;
     int radio;
     int teamID;
+    int turnosInit;
+    int turnos;
 }

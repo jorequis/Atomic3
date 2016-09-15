@@ -55,6 +55,10 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 		return false;
 	}
 
+	final int ACTION_DOWN = 0;
+	final int ACTION_UP = 1;
+	final int ACTION_MOVE = 2;
+
 	CustomDraw customDraw;
 	SpriteBatch spriteBatch;
 	ShapeRenderer shapeRenderer;
@@ -62,15 +66,7 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 	Chapa chapasAlly[];
 	Chapa chapasEnemy[];
 
-	Sprite nextChapaIndicator1;
-	Sprite nextChapaIndicator2;
-	Sprite nextChapaIndicator3;
-	float deltaTimeIndicator1 = 0;
-	float deltaTimeIndicator2 = 1/3f;
-	float deltaTimeIndicator3 = 2/3f;
-
-	Orbe orbeAlly;
-	Orbe orbeEnemy;
+	Orbe orbes[];
 
 	float deltaTime;
 
@@ -87,17 +83,9 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 	int touchX;
 	int touchY;
 
-	final int ACTION_DOWN = 0;
-	final int ACTION_UP = 1;
-	final int ACTION_MOVE = 2;
-
 	Orbe orbeSelected;
 	Chapa selectedChapa;
-	Chapa nextChapa;
-	boolean inAttack;
-	int turnoChapaAlly;
-	int turnoChapaEnemy;
-
+	Chapa chapaInAttack;
 	int teamTurn;
 
 	@Override
@@ -116,35 +104,32 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 
 		designScale = Gdx.graphics.getWidth() / (float) designWidth;
 
-		orbeAlly = new Orbe();
-		orbeAlly.vidaMax = 50;
-		orbeAlly.vida = orbeAlly.vidaMax;
-		orbeAlly.x = screenWidth / 2;
-		orbeAlly.y = (int) (30 * designScale);
-		orbeAlly.radio = screenWidth / 10;
-		orbeAlly.teamID = 0;
+		orbes = new Orbe[2];
 
-		orbeEnemy = new Orbe();
-		orbeEnemy.vidaMax = 50;
-		orbeEnemy.vida = orbeEnemy.vidaMax;
-		orbeEnemy.x = screenWidth / 2;
-		orbeEnemy.y = screenHeight - (int) (30 * designScale);
-		orbeEnemy.radio = screenWidth / 10;
-		orbeEnemy.teamID = 1;
+		orbes[0] = new Orbe();
+		orbes[0].vidaMax = 50;
+		orbes[0].vida = orbes[0].vidaMax;
+		orbes[0].x = screenWidth / 2;
+		orbes[0].y = (int) (30 * designScale);
+		orbes[0].radio = screenWidth / 10;
+		orbes[0].teamID = 0;
+		orbes[0].turnos = 3;
+		orbes[0].turnosInit = 3;
 
-		nextChapaIndicator1 = new Sprite(new Texture("nextc.png"));
-		nextChapaIndicator1.setSize(nextChapaIndicator1.getWidth() * designScale, nextChapaIndicator1.getHeight() * designScale);
-		nextChapaIndicator2 = new Sprite(new Texture("nextc.png"));
-		nextChapaIndicator2.setSize(nextChapaIndicator2.getWidth() * designScale, nextChapaIndicator2.getHeight() * designScale);
-		nextChapaIndicator3 = new Sprite(new Texture("nextc.png"));
-		nextChapaIndicator3.setSize(nextChapaIndicator3.getWidth() * designScale, nextChapaIndicator3.getHeight() * designScale);
+		orbes[1] = new Orbe();
+		orbes[1].vidaMax = 50;
+		orbes[1].vida = orbes[1].vidaMax;
+		orbes[1].x = screenWidth / 2;
+		orbes[1].y = screenHeight - (int) (30 * designScale);
+		orbes[1].radio = screenWidth / 10;
+		orbes[1].teamID = 1;
+		orbes[1].turnos = 3;
+		orbes[1].turnosInit = 3;
 
 		int[] ataques = {3, 2, 1};
 		int[] vidas = {1, 2, 5};
-		int[] turnos = {1, 2, 3};
 
 		teamTurn = 0;
-		turnoChapaAlly = 0;
 		chapasAlly = new Chapa[3];
 		for(int i = 0; i < chapasAlly.length; i++) {
 			chapasAlly[i] = new Chapa("greenc.png", screenWidth, screenHeight, designScale);
@@ -153,12 +138,10 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 			chapasAlly[i].mass = 1;
 			chapasAlly[i].setColor(new Color(0, 0.85f, 1, 1));
 			chapasAlly[i].teamID = 0;
-			chapasAlly[i].setParams(vidas[i], ataques[i], turnos[i]);
+			chapasAlly[i].setParams(vidas[i], ataques[i]);
 		}
-		nextChapa = chapasAlly[0];
 
 		chapasEnemy = new Chapa[3];
-		turnoChapaEnemy = 0;
 		for(int i = 0; i < chapasEnemy.length; i++) {
 			chapasEnemy[i] = new Chapa("redc.png", screenWidth, screenHeight, designScale);
 			chapasEnemy[i].setPosition(415 + 317/2 + 707 * i, 3658 + 347/2);
@@ -166,7 +149,7 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 			chapasEnemy[i].mass = 1;
 			chapasEnemy[i].setColor(new Color(0.95f, 0.2f, 0.5f, 1));
 			chapasEnemy[i].teamID = 1;
-			chapasEnemy[i].setParams(vidas[i], ataques[i], turnos[i]);
+			chapasEnemy[i].setParams(vidas[i], ataques[i]);
 		}
 	}
 
@@ -176,20 +159,6 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		deltaTime += Gdx.graphics.getDeltaTime();
-
-		if(Gdx.graphics.getDeltaTime() > 0.5f){
-			deltaTimeIndicator1 = 0f;
-			deltaTimeIndicator2 = 1f/3f;
-			deltaTimeIndicator3 = 2f/3f;
-		} else {
-			deltaTimeIndicator1 = deltaTimeIndicator1 >= 1 ? 0 : deltaTimeIndicator1;
-			deltaTimeIndicator2 = deltaTimeIndicator2 >= 1 ? 0 : deltaTimeIndicator2;
-			deltaTimeIndicator3 = deltaTimeIndicator3 >= 1 ? 0 : deltaTimeIndicator3;
-
-			deltaTimeIndicator1 += Gdx.graphics.getDeltaTime() / 2f;
-			deltaTimeIndicator2 += Gdx.graphics.getDeltaTime() / 2f;
-			deltaTimeIndicator3 += Gdx.graphics.getDeltaTime() / 2f;
-		}
 
 		for(Chapa c : chapasAlly)
 		c.update(deltaTime);
@@ -261,24 +230,12 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 		}
 
 		for(Chapa c : chapasAlly)
-			if(c.isColliding(orbeAlly)){
-				handleCollision(c, orbeAlly, false);
-			} else if(c.isColliding(orbeEnemy)){
-				handleCollision(c, orbeEnemy, false);
-				c.colidingWithOrbes.remove(orbeAlly);
-			} else {
-				c.colidingWithOrbes.remove(orbeEnemy);
-			}
-
-		for(Chapa c : chapasEnemy)
-			if(c.isColliding(orbeAlly)){
-				handleCollision(c, orbeAlly, false);
-			} else if(c.isColliding(orbeEnemy)){
-				handleCollision(c, orbeEnemy, false);
-				c.colidingWithOrbes.remove(orbeAlly);
-			} else {
-				c.colidingWithOrbes.remove(orbeEnemy);
-			}
+			for(Orbe o : orbes)
+				if(c.isColliding(o)){
+					handleCollision(c, o, false);
+				} else {
+					c.colidingWithOrbes.remove(o);
+				}
 
 		customDraw.beginSpriteBatch();
 		customDraw.changeToShapeRenderer(ShapeRenderer.ShapeType.Filled);
@@ -290,35 +247,20 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 		}
 
 		shapeRenderer.setColor(0.4f, 0.79f, 1, 0.5f);
-		shapeRenderer.rect(0, screenHeight / 2 - 60 * designScale, screenWidth * orbeAlly.vida / orbeAlly.vidaMax, 100 * designScale);
+		shapeRenderer.rect(0, screenHeight / 2 - 60 * designScale, screenWidth * orbes[0].vida / orbes[0].vidaMax, 100 * designScale);
 		shapeRenderer.setColor(1, 0, 0, 0.5f);
-		shapeRenderer.rect(0, screenHeight / 2 + 60 * designScale, screenWidth * orbeEnemy.vida / orbeEnemy.vidaMax, 100 * designScale);
+		shapeRenderer.rect(0, screenHeight / 2 + 60 * designScale, screenWidth * orbes[1].vida / orbes[1].vidaMax, 100 * designScale);
 
 		shapeRenderer.setColor(0.4f, 0.79f, 1, 0.5f);
-		shapeRenderer.circle(orbeAlly.x, orbeAlly.y, orbeAlly.radio);
+		shapeRenderer.circle(orbes[0].x, orbes[0].y, orbes[0].radio);
 		shapeRenderer.setColor(Color.RED);
-		shapeRenderer.circle(orbeEnemy.x, orbeEnemy.y, orbeEnemy.radio);
+		shapeRenderer.circle(orbes[1].x, orbes[1].y, orbes[1].radio);
 
 		if(inAttack && nextChapa != null) {
 			shapeRenderer.setColor(0, 1, 0, 0.5f);
 			shapeRenderer.circle(nextChapa.getX() + nextChapa.getWidth() / 2, nextChapa.getY() + nextChapa.getHeight() / 2, nextChapa.attackRadius);
 		}
 		customDraw.changeToSpriteBatch();
-
-		nextChapaIndicator1.setSize(317 * deltaTimeIndicator1 * designScale + 317 * designScale, 347 * deltaTimeIndicator1 * designScale + 347 * designScale);
-		nextChapaIndicator1.setPosition(nextChapa.getX() + nextChapa.getWidth() / 2 - nextChapaIndicator1.getWidth() / 2, nextChapa.getY() + nextChapa.getHeight() / 2 - nextChapaIndicator1.getHeight() / 2);
-		nextChapaIndicator1.setColor(1, 1, 1, 0.85f - deltaTimeIndicator1 < 0 ? 0 : 0.85f - deltaTimeIndicator1);
-		nextChapaIndicator1.draw(spriteBatch);
-
-		nextChapaIndicator2.setSize(317 * deltaTimeIndicator2 * designScale + 317 * designScale, 347 * deltaTimeIndicator2 * designScale + 347 * designScale);
-		nextChapaIndicator2.setPosition(nextChapa.getX() + nextChapa.getWidth() / 2 - nextChapaIndicator2.getWidth() / 2, nextChapa.getY() + nextChapa.getHeight() / 2 - nextChapaIndicator2.getHeight() / 2);
-		nextChapaIndicator2.setColor(1, 1, 1, 0.85f - deltaTimeIndicator2 < 0 ? 0 : 0.85f - deltaTimeIndicator2);
-		nextChapaIndicator2.draw(spriteBatch);
-
-		nextChapaIndicator3.setSize(317 * deltaTimeIndicator3 * designScale + 317 * designScale, 347 * deltaTimeIndicator3 * designScale + 347 * designScale);
-		nextChapaIndicator3.setPosition(nextChapa.getX() + nextChapa.getWidth() / 2 - nextChapaIndicator3.getWidth() / 2, nextChapa.getY() + nextChapa.getHeight() / 2 - nextChapaIndicator3.getHeight() / 2);
-		nextChapaIndicator3.setColor(1, 1, 1, 0.85f - deltaTimeIndicator3 < 0 ? 0 : 0.85f - deltaTimeIndicator3);
-		nextChapaIndicator3.draw(spriteBatch);
 
 		for(int i = 0; i < chapasAlly.length; i++)
 			chapasAlly[i].draw(spriteBatch);
@@ -484,15 +426,15 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 
 	void reset(){
 		teamTurn = 0;
-		turnoChapaAlly = 0;
+
+		orbes[0].turnos = orbes[0].turnosInit;
+		orbes[1].turnos = orbes[1].turnosInit;
+
 		for(int i = 0; i < chapasAlly.length; i++)
 			chapasAlly[i].reset();
 
-		turnoChapaEnemy = 0;
 		for(int i = 0; i < chapasEnemy.length; i++)
 			chapasEnemy[i].reset();
-
-		nextChapa = chapasAlly[0];
 	}
 
 	public void inputManager(int action, float x, float y, float velocityX){
@@ -544,10 +486,10 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 			}
 		}
 
-		if(isInside(orbeAlly, x, y)){
-			orbeSelected = orbeAlly;
-		} else if(isInside(orbeEnemy, x, y)){
-			orbeSelected = orbeEnemy;
+		if(isInside(orbes[0], x, y)){
+			orbeSelected = orbes[0];
+		} else if(isInside(orbes[1], x, y)){
+			orbeSelected = orbes[1];
 		} else {
 			orbeSelected = null;
 		}
@@ -564,16 +506,13 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 		touchX = (int) x;
 		touchY = (int) y;
 
-		if(x - initTouchX != 0 && y - initTouchY != 0) inAttack = false;
+		if(x - initTouchX != 0 && y - initTouchY != 0) chapaInAttack = null;
 	}
 
 	public void inputUp(float x, float y, float velocityX) {
-		log((nextChapa != null) + " " + inAttack + " " + (selectedChapa != null));
-		if (nextChapa != null) {
+		if (selectedChapa != null) {
 			if(inAttack) {
-				log(teamTurn);
-				if (selectedChapa == nextChapa) {
-				} else if (selectedChapa != null && teamTurn != selectedChapa.teamID) {
+				if (teamTurn != selectedChapa.teamID) {
 					if (isInside(selectedChapa, x, y)) {
 						float r = nextChapa.attackRadius;
 						float a = nextChapa.getX() + nextChapa.getWidth() / 2;
@@ -581,17 +520,19 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 						float one = ((float) Math.pow((x - a), 2));
 						float two = ((float) Math.pow((y - b), 2));
 						if (one + two < r * r) {
-							nextChapa.turnos--;
+							orbes[nextChapa.teamID].turnos--;
 							selectedChapa.vida -= nextChapa.ataque;
-							if (selectedChapa.vida > 0)
-								nextChapa.vida -= selectedChapa.ataque;
+							nextChapa.vida -= selectedChapa.ataque;
+
+							if(selectedChapa.vida < 0) orbes[selectedChapa.teamID].vida += selectedChapa.vida;
+							if(nextChapa.vida < 0) orbes[nextChapa.teamID].vida += nextChapa.vida;
 						}
 					}
 					inAttack = false;
 				} else if (orbeSelected != null && teamTurn != orbeSelected.teamID) {
 					if (isInside(orbeSelected, x, y)) {
 						if (orbeSelected.teamID != teamTurn) {
-							nextChapa.turnos--;
+							orbes[nextChapa.teamID].turnos--;
 							orbeSelected.vida -= nextChapa.ataque;
 						}
 					}
@@ -609,13 +550,13 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 						float yC = chapasAlly[turnoChapaAlly].getSprite().getY() + chapasAlly[turnoChapaAlly].getHeight() / 2;
 
 						chapasAlly[turnoChapaAlly].setPath(xC - (touchX - initTouchX), yC - (touchY - initTouchY), deltaTime, potencia);
-						nextChapa.turnos--;
+						orbes[nextChapa.teamID].turnos--;
 					} else {
 						float xC = chapasEnemy[turnoChapaEnemy].getSprite().getX() + chapasEnemy[turnoChapaEnemy].getWidth() / 2;
 						float yC = chapasEnemy[turnoChapaEnemy].getSprite().getY() + chapasEnemy[turnoChapaEnemy].getHeight() / 2;
 
 						chapasEnemy[turnoChapaEnemy].setPath(xC - (touchX - initTouchX), yC - (touchY - initTouchY), deltaTime, potencia);
-						nextChapa.turnos--;
+						orbes[nextChapa.teamID].turnos--;
 					}
 
 					touchX = -1;
@@ -623,19 +564,11 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 				}
 			}
 
-			if (nextChapa.turnos == 0) {
-				nextChapa.turnos = nextChapa.turnosInit;
-
-				if(teamTurn == 0) {
-					turnoChapaAlly = turnoChapaAlly == chapasAlly.length - 1 ? 0 : turnoChapaAlly + 1;
-					nextChapa = chapasEnemy[turnoChapaEnemy];
-				} else {
-					turnoChapaEnemy = turnoChapaEnemy == chapasEnemy.length - 1 ? 0 : turnoChapaEnemy + 1;
-					nextChapa = chapasAlly[turnoChapaAlly];
-				}
+			if (orbes[teamTurn].turnos == 0) {
+				orbes[teamTurn].turnos = orbes[teamTurn].turnosInit;
 
 				teamTurn = teamTurn == 0 ? 1 : 0;
-				inAttack = false;
+				chapaInAttack = null;
 			}
 		}
 		selectedChapa = null;
@@ -651,10 +584,6 @@ public class MainScene extends ApplicationAdapter implements InputProcessor{
 		c.dispose();
 		for(Chapa c : chapasEnemy)
 		c.dispose();
-
-		nextChapaIndicator1.getTexture().dispose();
-		nextChapaIndicator2.getTexture().dispose();
-		nextChapaIndicator3.getTexture().dispose();
 	}
 
 	public void log(String s){
