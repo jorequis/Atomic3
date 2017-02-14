@@ -30,25 +30,25 @@ Descripción general
 6. **mensajes:** Lista de todos los **Mensajes** que se ha escrito con todos los amigos
 
 ### Tablón
-**userName:** Nombre del **Usuario** al que pertenece el tablón.
-**privado:** Determina si el **Tablón** es privado o público.
-**notas:** Lista de todas las **Notas** que contien el **Tablón"**.
+1. **userName:** Nombre del **Usuario** al que pertenece el tablón.
+2. **privado:** Determina si el **Tablón** es privado o público.
+3. **notas:** Lista de todas las **Notas** que contien el **Tablón"**.
 
 ### Nota
-**contenido:** Texto que contiene la **Nota**
-**tablon:** Referencia al **Tablón** al que pertenece la **Nota**
-**comentarios:** Lista que contiene todos los **Comentarios** de la **Nota**
+1. **contenido:** Texto que contiene la **Nota**
+2. **tablon:** Referencia al **Tablón** al que pertenece la **Nota**
+3. **comentarios:** Lista que contiene todos los **Comentarios** de la **Nota**
 
 ### Comentario
-**usuario:** Nombre del **Usuario** al que pertenece el comentario
-**contenido:** Texto que contiene el **Comentario**
-**nota:** Referencia a la **Nota** a la que pertenece el comentario
+1. **usuario:** Nombre del **Usuario** al que pertenece el comentario
+2. **contenido:** Texto que contiene el **Comentario**
+3. **nota:** Referencia a la **Nota** a la que pertenece el comentario
 
 ### Mensaje
-**contenido:** Texto que contiene el **Mensaje**
-**emisor:** Referencia al **Usuario** que emitió el mensaje
-**receptor:** Referencia al **Usuario** que recibió el mensaje
-**isMio:** Determina si el mensaje fue emitido por el usuario actualmente logeado
+1. **contenido:** Texto que contiene el **Mensaje**
+2. **emisor:** Referencia al **Usuario** que emitió el mensaje
+3. **receptor:** Referencia al **Usuario** que recibió el mensaje
+4. **isMio:** Determina si el mensaje fue emitido por el usuario actualmente logeado
 
 
 ##Capturas de pantalla
