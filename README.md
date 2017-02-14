@@ -22,12 +22,12 @@ Descripción general
 5. Mensajes directos entre amigos1
 
 ### Usuario
-**name:** Nombre del usuario y loggin
-**password:** Contraseña para el loggin (no funcional actualmente)
-**tablonPrivado:** **Tabón** de notas que solo puede ver el propio usuario
-**tablonPublico:** **Tablón** de notas que puede ver cualquier amigo
-**amigos:** Lista de **Usuarios** que ha agregado el usuario como amigos
-**mensajes:** Lista de todos los **Mensajes** que se ha escrito con todos los amigos
+1. **name:** Nombre del usuario y loggin
+2. **password:** Contraseña para el loggin (no funcional actualmente)
+3. **tablonPrivado:** **Tabón** de notas que solo puede ver el propio usuario
+4. **tablonPublico:** **Tablón** de notas que puede ver cualquier amigo
+5. **amigos:** Lista de **Usuarios** que ha agregado el usuario como amigos
+6. **mensajes:** Lista de todos los **Mensajes** que se ha escrito con todos los amigos
 
 ### Tablón
 **userName:** Nombre del **Usuario** al que pertenece el tablón
