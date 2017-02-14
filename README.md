@@ -30,9 +30,9 @@ Descripción general
 6. **mensajes:** Lista de todos los **Mensajes** que se ha escrito con todos los amigos
 
 ### Tablón
-**userName:** Nombre del **Usuario** al que pertenece el tablón
-**privado:** Determina si el **Tablón** es privado o público
-**notas:** Lista de todas las **Notas** que contien el **Tablón"**
+**userName:** Nombre del **Usuario** al que pertenece el tablón.
+**privado:** Determina si el **Tablón** es privado o público.
+**notas:** Lista de todas las **Notas** que contien el **Tablón"**.
 
 ### Nota
 **contenido:** Texto que contiene la **Nota**
